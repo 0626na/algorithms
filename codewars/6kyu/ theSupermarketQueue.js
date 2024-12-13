@@ -1,0 +1,1 @@
+function queueTime(customers, n) {}
