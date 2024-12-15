@@ -39,6 +39,61 @@ board[i][j] is either -1 or in the range [1, n2].
 The squares labeled 1 and n2 are not the starting points of any snake or ladder.
 """
 
+from collections import deque
+from typing import List
 
-def snakesAndLadders(self, board: List[List[int]]) -> int:
-    return
+
+def snakesAndLadders(board: List[List[int]]) -> int:
+    n = len(board)
+    arr = [0] * (n * n + 1)
+    idx = 1
+    visited = [False] * ((n * n) + 1)
+    board.reverse()
+    queue = deque()
+
+    # 2차원 리스트인 board를 탐색하기 편하게 하기위해서 1차원 리스트에 통합한다
+    for i, row in enumerate(board):
+        if i % 2 == 0:
+            for c in row:
+                arr[idx] = c
+                idx += 1
+        else:
+            for c in reversed(row):
+                arr[idx] = c
+                idx += 1
+
+    queue += [(1, 0)]
+    visited[1] = True
+    while queue:
+        current, movements = queue.popleft()
+
+        if current == n * n:
+            return movements
+
+        for step in range(1, 7):
+            nextPos = current + step
+
+            if nextPos > n * n:
+                break
+            if arr[nextPos] != -1:
+                nextPos = arr[nextPos]
+
+            if not visited[nextPos]:
+                visited[nextPos] = True
+                queue += [(nextPos, movements + 1)]
+
+    return -1
+
+
+print(
+    snakesAndLadders(
+        [
+            [-1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1],
+            [-1, 35, -1, -1, 13, -1],
+            [-1, -1, -1, -1, -1, -1],
+            [-1, 15, -1, -1, -1, -1],
+        ]
+    )
+)
