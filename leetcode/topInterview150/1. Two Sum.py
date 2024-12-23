@@ -37,11 +37,23 @@ Follow-up: Can you come up with an algorithm that is less than O(n2) time comple
 
 from typing import List
 
+"""
+풀이방법
+- 해쉬 테이블을 선언
+- 리스트 루프를 하면서 target과 각 리스트의 값인 num을 뺀다. 뺀 값인 rest가 없으면 현재 순회하는 num과 해당 num의 index를
+  해쉬 테이블에 key:value로 넣는다.
+- rest가 해쉬테이블에 있을경우 그 rest의 인덱스와 현재 순회중인 num의 인덱스를 리스트로 반환한다
+"""
+
 
 def twoSum(nums: List[int], target: int) -> List[int]:
-    nums_HashTable = {num: idx for idx, num in enumerate(nums)}
+    nums_HashTable = {}
 
-    for num in nums:
+    for idx, num in enumerate(nums):
         rest = target - num
-        if nums_HashTable[rest]:
-            return [nums_HashTable[num], nums_HashTable[rest]]
+        if rest in nums_HashTable:
+            return [nums_HashTable[rest], idx]
+        nums_HashTable[num] = idx
+
+
+twoSum([3, 3], 6)
