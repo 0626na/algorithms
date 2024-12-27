@@ -39,3 +39,33 @@ Constraints:
 All the values of nums are unique.
 nums is sorted in ascending order.
 """
+
+from typing import List
+
+"""
+풀이방법
+- 시작부분에 해당하는 인덱스 포인터 start, 마지막 부분에 해당하는 인덱스 포인터 end를 설정한다
+- 순회를 하면서 현재 인덱스와 바로 다음 인덱스를 뺄때 1이 아닌 그 이상 값이 나오면 거기서 멈추고 start와 end 인덱스 값까지의 범위의 숫자값을 리스트에 입력한다.
+"""
+
+
+def summaryRanges(nums: List[int]) -> List[str]:
+    result = []
+    start, end = 0, 0
+
+    for i in range(len(nums)):
+
+        if i == len(nums) - 1 or nums[i + 1] - nums[i] > 1:
+            if end - start == 0:
+                result.append(f"{nums[start]}")
+            else:
+                result.append(f"{nums[start]}->{nums[end]}")
+            end = i + 1
+            start = i + 1
+        else:
+            end += 1
+
+    return result
+
+
+summaryRanges([0, 1, 2, 4, 5, 7])
