@@ -38,3 +38,41 @@ pos is -1 or a valid index in the linked-list.
 
 Follow up: Can you solve it using O(1) (i.e. constant) memory?
 """
+
+from typing import Optional
+
+
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+
+# hash table 사용한 풀이
+# def hasCycle(head: Optional[ListNode]) -> bool:
+#     visited = set()
+#     current = head
+
+#     while current:
+#         if current in visited:
+#             return True
+#         visited.add(current)
+#         current = current.next
+
+#     return False
+
+
+# floyd 순환 탐색 알고리즘를 사용한 풀이
+def hasCycle(head: Optional[ListNode]) -> bool:
+    slow = head
+    fast = head
+
+    while fast and fast.next:
+        slow = slow.next  # 한칸씩 이동
+        fast = fast.next.next  # 두칸씩 이동
+
+        if slow == fast:
+            return True
+
+    return False
