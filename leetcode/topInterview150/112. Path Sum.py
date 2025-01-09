@@ -55,15 +55,23 @@ def hasPathSum(root: Optional[TreeNode], targetSum: int) -> bool:
         return False
     stack.append(root)
     visited.add(root)
+    sumValue += root.val
 
     while stack:
         node = stack[-1]
-        sumValue+=node.val
 
-        if sumValue==targetSum:
-            return True
-        
         if node.left and not node.left in visited:
+            stack.append(node.left)
+            visited.add(node.left)
+            sumValue += node.left.val
+        elif node.right and not node.right in visited:
+            stack.append(node.right)
+            visited.add(node.right)
+            sumValue += node.right.val
+        else:
+            if sumValue == targetSum and not node.left and not node.right:
+                return True
+            sumValue -= node.val
+            stack.pop()
 
-
-    return
+    return False
